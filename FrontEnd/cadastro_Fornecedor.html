@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Register - SB Admin</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">Cadastro de fornecedor</h3>
+                                </div>
+                                <div class="card-body">
+                                    <form id="registrationForm">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputRazao" type="text"
+                                                        placeholder="Razão social" />
+                                                    <label for="inputRazao">Razão</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="inputContato" type="text"
+                                                        placeholder="Contato" />
+                                                    <label for="inputContato">Contato</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 md-3 mb-md-0">
+                                                    <input class="form-control" id="inputCPF_CNPJ" type="text"
+                                                        placeholder="CPF/CNPJ" />
+                                                    <label for="inputCPF_CNPJ">CPF/CNPJ</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputUF" type="text"
+                                                        placeholder="UF" />
+                                                    <label for="inputUF">UF</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputLogradouro" type="text"
+                                                        placeholder="Logradouro" />
+                                                    <label for="inputLogradouro">Logradouro</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputCidade" type="text"
+                                                        placeholder="Cidade" />
+                                                    <label for="inputCidade">Cidade</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- Adicione isso abaixo dos campos existentes no formulário -->
+                                        <div class="mb-3">
+                                            <label for="inputImagem" class="form-label">Logo</label>
+                                            <input type="file" class="form-control" id="inputImagem" accept="image/*">
+                                        </div>
+                                        <div class="mt-4 mb-0">
+                                            <div class="d-grid">
+                                                <button class="btn btn-primary btn-block" type="button"
+                                                    onclick="registerUser()" id="btnCadastrarFornecedor">Cadastrar Fornecedor</button>
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <div id="layoutAuthentication_footer">
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+
+    <script>
+        function registerUser() {
+            // Obtém os valores dos campos do formulário
+            var data = {
+                razao: document.getElementById("inputRazao").value,
+                contato: document.getElementById("inputContato").value,
+                cpf_cnpj: document.getElementById("inputCPF_CNPJ").value,
+                uf: document.getElementById("inputUF").value,
+                logradouro: document.getElementById("inputLogradouro").value,
+                cidade: document.getElementById("inputCidade").value,
+            };
+    
+            // Obtém o arquivo de imagem selecionado
+            var imagemInput = document.getElementById("inputImagem");
+            var imagemFile = imagemInput.files[0];
+    
+            // Cria um objeto FormData para enviar os dados e a imagem
+            var formData = new FormData();
+            formData.append("razao", data.razao);
+            formData.append("contato", data.contato);
+            formData.append("cpf_cnpj", data.cpf_cnpj);
+            formData.append("uf", data.uf);
+            formData.append("logradouro", data.logradouro);
+            formData.append("cidade", data.cidade);
+            formData.append("avatar", imagemFile);
+    
+            // Envia a requisição usando Axios
+            axios.post('http://localhost:3013/fornecedores', formData)
+                .then(response => {
+                    console.log(response);
+                    loadTable('fornecedores')
+                     window.location.href = "main.html";
+                     
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("Erro ao cadastrar o fornecedor. Por favor, tente novamente.");
+                });
+        }
+    </script>
+    
+
+</body>
+
+</html>
